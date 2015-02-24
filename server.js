@@ -32,10 +32,12 @@
 // For now, scripts requiring the module need only start the server
 
 var http = require("http");
+var url = require("url"); // needed for methods to dissect request paths
 
 function start() {
 	function onRequest(request, response) {
-		console.log("request received");
+		var pathname = url.parse(request.url).pathname
+		console.log("request for " + pathname + " received.");
 		response.writeHead(200, {"Content-Type": "text/plain"});
 		response.write("Hello World");
 		response.end();
