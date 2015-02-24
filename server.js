@@ -1,18 +1,18 @@
-var http = require("http"); 
+// var http = require("http"); 
 // requires the http module that ships with NodeJS
 // makes the module accessible through the variable http
 
 // call createServer() on http module
 // returns an object, which has a method listen()
-http.createServer(function(request, response) {
+// http.createServer(function(request, response) {
 	// we passed createServer() an anonymous function
 	// could have declared a named function outside and then just passed it in
-	console.log("request received.")
-	response.writeHead(200, {"Content-Type": "text/plain"});
-	response.write("Hello World");
-	response.end();
-}).listen(8888);
-console.log("server started");
+// 	console.log("request received.")
+// 	response.writeHead(200, {"Content-Type": "text/plain"});
+// 	response.write("Hello World");
+// 	response.end();
+// }).listen(8888);
+// console.log("server started");
 // the listen() method takes a numeric value that indicates the port number
 // on which the server is to listen
 
@@ -27,3 +27,22 @@ console.log("server started");
 // When request is received, use response.writeHead() and response.write()
 // call response.end() to actually finish the response
 
+// Now, let's make this a module
+// Export functionality that we want to provide to scripts that require the module
+// For now, scripts requiring the module need only start the server
+
+var http = require("http");
+
+function start() {
+	function onRequest(request, response) {
+		console.log("request received");
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		response.write("Hello World");
+		response.end();
+	}
+
+	http.createServer(onRequest).listen(8888);
+	console.log("Server started.");
+}
+
+exports.start = start;
